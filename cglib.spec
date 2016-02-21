@@ -4,7 +4,7 @@
 
 Name:           %{?scl_prefix}%{pkg_name}
 Version:        2.2
-Release:        18.13%{?dist}
+Release:        18.14%{?dist}
 Summary:        Code Generation Library for Java
 License:        ASL 2.0 and BSD
 Url:            http://cglib.sourceforge.net/
@@ -20,7 +20,7 @@ BuildRequires:  %{?scl_prefix_java_common}ant
 BuildRequires:  %{?scl_prefix_java_common}javapackages-tools
 BuildRequires:  %{?scl_prefix_java_common}objectweb-asm
 BuildRequires:  unzip
-BuildRequires:  maven30-aqute-bnd
+BuildRequires:  %{?scl_prefix}aqute-bnd
 BuildArch:      noarch
 
 %description
@@ -35,14 +35,14 @@ Documentation for the cglib code generation library.
 
 %prep
 %setup -q -c -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 rm lib/*.jar
 %patch0 -p1
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 export CLASSPATH=`build-classpath objectweb-asm`
 ant jar javadoc
@@ -54,7 +54,7 @@ popd
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 install -d -m 755 %{buildroot}%{_javadir}
 install -d -m 755 %{buildroot}%{_mavenpomdir}
@@ -77,6 +77,9 @@ cp -rp docs/* %{buildroot}%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 2.2-18.14
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 2.2-18.13
 - maven33 rebuild
 
